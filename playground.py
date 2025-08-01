@@ -1,6 +1,7 @@
 from download_data import *
 from get_returns import *
 from optimize_portfolio import *
+from plot_bobot import *
 
 ## list semua saham yang terindeks di masing-masing indeks/ETF
 saham_idx30 = ['ADRO.JK', 'AKRA.JK', 'AMRT.JK', 'ANTM.JK', 'ASII.JK', ## Perhatikan untuk saham indonesia punya akhiran '.JK' di entrinya
@@ -46,7 +47,7 @@ to_download.append('^JKSE') ## tambahkan IHSG untuk didownload
 ## siapkan nama folder tempat mengunduh data
 download_path = 'data'
 
-# print(to_download)
-# download_data(to_download, download_path) ## download data dari yahoo finance
+download_data(to_download, download_path) ## download data dari yahoo finance
 rekam_return_date, rekam_return, rekam_return_ihsg = get_returns(to_download, download_path) ## dapatkan data return harian
-w, dispw = optimize_portfolio(rekam_return)
+w, dispw = optimize_portfolio(rekam_return) ## dapatkan weighting / bobot optimal
+plot_bobot(w) ## plot bobot masing-masing saham pada portfolio
