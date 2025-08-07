@@ -47,11 +47,5 @@ def get_returns(to_download, download_path):
         rekam_return.drop(stock+'_close', axis=1, inplace=True)
 
     rekam_return = rekam_return.dropna() ## hapus semua NaN yang tersisa
-    rekam_return_date = rekam_return['Date'].astype('datetime64[ns]') ## simpan data tanggal
-    rekam_return = rekam_return.drop('Date', axis=1) # drop data tanggal untuk menyesuaikan input riskfolio-lib
 
-    # pisahkan data IHSG, karena IHSG dipakai sebagai pembanding
-    rekam_return_ihsg = rekam_return['^JKSE'].copy()
-    rekam_return = rekam_return.drop('^JKSE', axis=1)
-
-    return rekam_return_date, rekam_return, rekam_return_ihsg
+    return rekam_return

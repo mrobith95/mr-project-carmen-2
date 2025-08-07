@@ -2,7 +2,7 @@ import os
 import yfinance as yf
 import pandas as pd
 
-def download_data(to_download, download_path):
+def download_data(to_download, download_path, start_str, end_str):
 
     ## siapkan folder kosong untuk mengunduh data
     if not os.path.exists(download_path):
@@ -10,9 +10,10 @@ def download_data(to_download, download_path):
 
     ## download data
     alldata = yf.download(to_download,
-                      period='2y', ## untuk menyederhanakan masalah, cukup ambil data 2 tahun sebelumnya
-                      rounding = True, ## pembulatan ke 2 angka dibelakang koma
-                      auto_adjust = False) ## gunakan OHLC ygn tidak adjust, agar nilainya persis seperti pada chart
+                    #   period='2y', ## untuk menyederhanakan masalah, cukup ambil data 2 tahun sebelumnya
+                      start = start_str, ## tanggal awal download data
+                      end = end_str, ## tanggal akhir download data
+                      rounding = True) ## pembulatan ke 2 angka dibelakang koma
     alldata = alldata.reset_index() ## buat tanggal jadi data, bukan index
 
     # simpan data masing-masing saham dan indeks kedalam csv
