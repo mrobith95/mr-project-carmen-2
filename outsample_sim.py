@@ -5,6 +5,7 @@ import numpy as np
 import pandas as pd
 from datetime import timedelta
 from tabulate import tabulate
+from scipy import stats
 
 def outsample_sim(w, rekam_return_date_out, rekam_return_out, rekam_return_ihsg_out):
 
@@ -42,10 +43,17 @@ def outsample_sim(w, rekam_return_date_out, rekam_return_out, rekam_return_ihsg_
     opt_maxdd = -1*data['Optimized_DD'].min()
     ihsgmaxdd = -1*data['IHSG_DD'].min()
 
+    opt_med = data['Optimized'].median()
+    ihsgmed = data['IHSG'].median()
+
+    opt_iqr = data['Optimized'].quantile(0.75) - data['Optimized'].quantile(0.25)
+    ihsgiqr = data['IHSG'].quantile(0.75) - data['IHSG'].quantile(0.25)
+
     ## buat tabel metrik
-    ini_dict = {'Metrik': ['Rata-Rata Return Harian (%)', 'Standar Deviasi Return Harian (%)', 'Sharpe Ratio', 'Max. Drawdown (%)'],
-                'Optimized': [round(100*opt_mean,2), round(100*opt_stdev,2), round(opt_sharpe,2), round(100*opt_maxdd,2)],
-                'IHSG': [round(100*ihsgmean,2), round(100*ihsgstdev,2), round(ihsgsharpe,2), round(100*ihsgmaxdd,2)]}
+    ini_dict = {'Metrik': ['Rata-Rata Return Harian (%)', 'Standar Deviasi Return Harian (%)', 'Median Return Harian (%)', 'IQR Return Harian (%)', 'Sharpe Ratio', 'Max. Drawdown (%)'],
+                'Optimized': [round(100*opt_mean,2), round(100*opt_stdev,2), round(100*opt_med,2), round(100*opt_iqr,2), round(opt_sharpe,2), round(100*opt_maxdd,2)],
+                'IHSG': [round(100*ihsgmean,2), round(100*ihsgstdev,2), round(100*ihsgmed,2), round(100*ihsgiqr,2), round(ihsgsharpe,2), round(100*ihsgmaxdd,2)],
+                'SR022-T5': [0.03, 0.00, 0.03, 0.00, '-', 0.00]}
     
     ini_pd = pd.DataFrame(ini_dict)
 
@@ -53,6 +61,21 @@ def outsample_sim(w, rekam_return_date_out, rekam_return_out, rekam_return_ihsg_
     print('--- Metrik Portofolio Hasil Optimasi vs. IHSG ---')
     print(tabulate(ini_pd, headers=ini_pd.columns,
                 tablefmt='outline', floatfmt='.2f'))
+    print(' ')
+    
+    ## uji KS test untuk membandingkan return portofolio hasil optimisasi dan IHSG
+    ## Null: Return hasil optimisasi kurang dari sama dengan return IHSG
+    ## Alt : Return hasil optimisasi lebih tinggi dibanding IHSG
+    ## threshold = 0.05
+
+    print('--- Uji KS return hasil optimisasi vs. IHSG ---')
+    hasil_ks = stats.ks_2samp(data['Optimized'], data['IHSG'],
+                              alternative='less')
+    print('pvalue hasil KS: ', hasil_ks.pvalue)
+    if hasil_ks.pvalue < 0.05:
+        print('Kesimpulan: Return hasil optimisasi lebih tinggi dibandingkan IHSG.')
+    else:
+        print('Kesimpulan: Return hasil optimisasi cenderung tidak lebih tinggi dibandingkan IHSG.')
 
     ## plot distribusi return
     bin_spec = np.arange(np.floor(min(100*data['Optimized'])),
