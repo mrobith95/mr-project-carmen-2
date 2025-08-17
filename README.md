@@ -1,6 +1,10 @@
 # mr-project-carmen-2
 Kode Sumber untuk Artikel Medium saya yang berjudul ["Optimisasi Portofolio Sharpe Ratio Sederhana serta Penerapannya pada Pasar Saham Indonesia"](https://medium.com/@mrobith95/optimasi-portofolio-sederhana-pada-pasar-saham-indonesia-c190c4771008). Kode sumber ini dapat Anda gunakan untuk melakukan replikasi pada hasil pada artikel tersebut maupun untuk melakukan optimasi secara mandiri. Disarankan untuk menggunakan package dengan versi yang sesuai pada `requirements.txt` untuk menjalankan kode ini.
 
+## Penafian / Disclaimer
+
+Kode sumber ini, serta artikel yang tertaut pada repositori ini, hanya bersifat edukasi dan informasi umum, bukan merupakan saran atau rekomendasi investasi. Keputusan investasi sepenuhnya menjadi tanggung jawab pengguna.
+
 ## Cara Menggunakan
 
 Jika Anda berencana untuk mereplikasi hasil yang ada pada artikel "Optimasi Portofolio Sederhana pada Pasar Saham Indonesia", maka anda dapat menjalankan/run `playground.py` saja, tanpa harus mengubah variabel lainnya.
