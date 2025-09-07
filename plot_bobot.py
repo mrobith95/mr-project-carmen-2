@@ -15,6 +15,6 @@ def plot_bobot(w):
     fig_pie, ax_pie = plt.subplots(figsize=(9,6))
     ax_pie.pie(w['Weight (%)'].to_numpy().reshape((len(w))), labels = w['Label'],
                radius=1) # wedgeprops dan textprops
-    ax_pie.set_title('Bobot Tiap Aset (%)')
+    ax_pie.set_title('Weight for each Stock (%)')
     plt.tight_layout()
     plt.show()

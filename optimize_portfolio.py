@@ -34,8 +34,8 @@ def optimize_portfolio(rekam_return):
     dispw_df = pd.DataFrame(dispw, index=nama_saham, columns=['Weight (%)'])
 
     ## print
-    print('--- Bobot/Weight tiap Saham Hasil Optimisasi ---')
-    print(tabulate(dispw_df, headers=['Saham', 'Bobot (%)'],
+    print('--- Optimization Result: Weight for each Stock ---')
+    print(tabulate(dispw_df, headers=['Stock', 'Weight (%)'],
                 tablefmt='outline', floatfmt='.2f'))
     print(' ')
 

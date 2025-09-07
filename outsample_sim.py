@@ -50,7 +50,7 @@ def outsample_sim(w, rekam_return_date_out, rekam_return_out, rekam_return_ihsg_
     ihsgiqr = data['IHSG'].quantile(0.75) - data['IHSG'].quantile(0.25)
 
     ## buat tabel metrik
-    ini_dict = {'Metrik': ['Rata-Rata Return Harian (%)', 'Standar Deviasi Return Harian (%)', 'Median Return Harian (%)', 'IQR Return Harian (%)', 'Sharpe Ratio', 'Max. Drawdown (%)'],
+    ini_dict = {'Metric': ['Daily Return Mean (%)', 'Daily Return Standard Dev. (%)', 'Daily Return Median (%)', 'Daily Return IQR (%)', 'Sharpe Ratio', 'Max. Drawdown (%)'],
                 'Optimized': [round(100*opt_mean,2), round(100*opt_stdev,2), round(100*opt_med,2), round(100*opt_iqr,2), round(opt_sharpe,2), round(100*opt_maxdd,2)],
                 'IHSG': [round(100*ihsgmean,2), round(100*ihsgstdev,2), round(100*ihsgmed,2), round(100*ihsgiqr,2), round(ihsgsharpe,2), round(100*ihsgmaxdd,2)],
                 'SR022-T5': [0.03, 0.00, 0.03, 0.00, '-', 0.00]}
@@ -58,7 +58,7 @@ def outsample_sim(w, rekam_return_date_out, rekam_return_out, rekam_return_ihsg_
     ini_pd = pd.DataFrame(ini_dict)
 
     ## print tabel
-    print('--- Metrik Portofolio Hasil Optimasi vs. IHSG ---')
+    print('--- Optimized Portfolio vs. IHSG: Performance Metric ---')
     print(tabulate(ini_pd, headers=ini_pd.columns,
                 tablefmt='outline', floatfmt='.2f'))
     print(' ')
@@ -68,14 +68,14 @@ def outsample_sim(w, rekam_return_date_out, rekam_return_out, rekam_return_ihsg_
     ## Alt : Return hasil optimisasi lebih tinggi dibanding IHSG
     ## threshold = 0.05
 
-    print('--- Uji KS return hasil optimisasi vs. IHSG ---')
+    print('--- KS-Test: Optimized Portfolio vs. IHSG ---')
     hasil_ks = stats.ks_2samp(data['Optimized'], data['IHSG'],
                               alternative='less')
-    print('pvalue hasil KS: ', hasil_ks.pvalue)
+    print("KS-Test's p-value: ", hasil_ks.pvalue)
     if hasil_ks.pvalue < 0.05:
-        print('Kesimpulan: Return hasil optimisasi lebih tinggi dibandingkan IHSG.')
+        print("Conclusion: Optimized Portfolio's daily return is more than IHSG.")
     else:
-        print('Kesimpulan: Return hasil optimisasi cenderung tidak lebih tinggi dibandingkan IHSG.')
+        print("Conclusion: Optimized Portfolio's daily return is no more than IHSG.")
 
     ## plot distribusi return
     bin_spec = np.arange(np.floor(min(100*data['Optimized'])),
@@ -96,7 +96,7 @@ def outsample_sim(w, rekam_return_date_out, rekam_return_out, rekam_return_ihsg_
     ax_hist.axvline(100*opt_mean, label=f'Mean (Opt.): {round(100*opt_mean,2)}%', color='#1f77b4', lw=2)
     ax_hist.legend()
     ax_hist.grid(True)
-    ax_hist.set_title('Histogram Return Harian')
+    ax_hist.set_title('Daily Return Histogram')
     ax_hist.set_ylabel('Probability Density')
     ax_hist = plt.tight_layout()
     ax_hist = plt.gca().xaxis.set_major_formatter(mtick.FuncFormatter(lambda x, _: f'{x:.2f}%'))
@@ -111,7 +111,7 @@ def outsample_sim(w, rekam_return_date_out, rekam_return_out, rekam_return_ihsg_
 
     ax_ser_cust.legend()
     ax_ser_cust.grid(True)
-    ax_ser_cust.set_title('Return Kumulatif dari Waktu-ke-waktu')
+    ax_ser_cust.set_title('Compounded, Cumulative Return Over Time')
     ax_ser_cust = plt.tight_layout()
 
     ## drawdown
@@ -125,7 +125,7 @@ def outsample_sim(w, rekam_return_date_out, rekam_return_out, rekam_return_ihsg_
     ax_dd.set_ylim(min(data['IHSG_DD'].min(), data['Optimized_DD'].min())*1.1, 0)
     ax_dd.legend()
     ax_dd.grid(True)
-    ax_dd.set_title('Drawdown dari Waktu-ke-waktu')
+    ax_dd.set_title('Drawdown Over Time')
     ax_dd = plt.tight_layout()
     ax_dd = plt.gca().yaxis.set_major_formatter(mtick.PercentFormatter(xmax=1.0))
 
