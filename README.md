@@ -1,25 +1,22 @@
 # mr-project-carmen-2
-Kode Sumber untuk Artikel Medium saya yang berjudul ["Optimisasi Portofolio Sharpe Ratio Sederhana serta Penerapannya pada Pasar Saham Indonesia"](https://medium.com/@mrobith95/optimasi-portofolio-sederhana-pada-pasar-saham-indonesia-c190c4771008). Kode sumber ini dapat Anda gunakan untuk melakukan replikasi pada hasil pada artikel tersebut maupun untuk melakukan optimasi secara mandiri. Disarankan untuk menggunakan package dengan versi yang sesuai pada `requirements.txt` untuk menjalankan kode ini.
+Source code for my Medium Article ["Simple Maximum Sharpe Ratio Portfolio Optimization"](https://medium.com/@mrobith95/simple-maximum-sharpe-ratio-portfolio-optimization-adc45e2697ee). You can use this source code to replicate result on the article or to perform portfolio optimization yourself. It is recommended to use packages listed in `requirements.txt` in order to run this code.
 
-## Penafian / Disclaimer
+## Disclaimer
+This source code, and article linked to this repo, is only for educational and general informational purposes and not a financial/investment advice nor recommendation. You are responsible for your own investment desicions.
 
-Kode sumber ini, serta artikel yang tertaut pada repositori ini, hanya bersifat edukasi dan informasi umum, bukan merupakan saran atau rekomendasi investasi. Keputusan investasi sepenuhnya menjadi tanggung jawab pengguna.
+## How to Use
+If you just want to replicate result in the article, then you only need to run `playground.py` without changes.
 
-## Cara Menggunakan
+If you want to do portfolio optimization by yourself, then modify the following variables on `playground.py` as needed:
 
-Jika Anda berencana untuk mereplikasi hasil yang ada pada artikel "Optimasi Portofolio Sederhana pada Pasar Saham Indonesia", maka anda dapat menjalankan/run `playground.py` saja, tanpa harus mengubah variabel lainnya.
+* `to_download` : a list of stocks you consider to add for your portfolio. Note that, while you can consider any stocks available from yahoo finance, you can only use IHSG as benchmark index.
+* `start_str` : Download start date string (YYYY-MM-DD).
+* `end_str` : Download end date string (YYYY-MM-DD).
+* `download_path` : Name of folder for which downloaded data would be saved.
+* `month_out` : The number of months to set as outsample part period. Must be an integer more than 0.
 
-Jika Anda ingin melakukan optimasi portofolio secara mandiri, ubah variabel berikut pada `playground.py`:
+Note that Download start date is inclusive but Download end date is exclusive. We suggest that ...
+1. the number of days of downloaded data at least 10 times the number of considered stocks.
+2. the number of months of downloaded data at least 2 times `month_out`.
 
-* `to_download` : berisi saham apa saja yang ingin dipertimbangkan untuk masuk dalam portofolio. Meskipun Anda bisa menggunakan data saham apa saja yang tersedia di yahoo finance, perhatikan bahwa Anda hanya bisa membandingkannya dengan IHSG.
-* `start_str` : tanggal awal dari data yang akan didownload.
-* `end_str` : tanggal akhir dari data yang akan didownload.
-
-Perhatikan bahwa data yang didownload mulai dari tanggal pada `start_str` hingga 1 hari sebelum `end_str`. Untuk menentukan periode data yang diunduh, disarankan agar ...
-1. banyak harinya minimal 10 * (banyak saham yang dipertimbangkan)
-2. banyak bulannya minimal 2 kali dari input month_out
-
-* `download_path` : nama folder tempat menyimpan data yang didownload.
-* `month_out` : banyak bulan untuk dijadikan data outsample. Harus bilangan bulat (integer) lebih dari 0
-
-Anda wajib menjalankan fungsi `download_data` jika baru pertama kali menjalankan program ini. Fungsi `plot_bobot` bersifat fungsional. Anda mungkin perlu meg-close beberapa plot yang muncul agar program berjalan/berhenti dengan sempurna.
+You must run `download_data` function if it is the time you run `playground.py`. `plot_bobot` function is optional (You may not run this function when performing portfolio optimization). You might need to close several plots that appear to make sure the code run/end perfectly.
